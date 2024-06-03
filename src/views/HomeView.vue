@@ -1,8 +1,9 @@
 <script setup>
+import BarChart from '@/components/ChartServicios.vue';
 </script>
 
 <template>
   <div class="swapContent">
-    <h1>Hola</h1>
+    <BarChart/>
   </div>
 </template>

@@ -20,7 +20,7 @@ html,body {
 .menu {
   background-color: rgb(66,183,131);
   width: 230px;
-  position: absolute;
+  position: fixed;
   height: calc(100vh - 90px);
   margin-top: 80px;
   margin-left:20px;

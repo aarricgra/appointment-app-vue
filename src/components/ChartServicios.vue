@@ -1,9 +1,12 @@
 <template>
-  <Bar
+  <div class="chart-container">
+<Bar
     id="my-chart-id"
     :options="chartOptions"
     :data="chartData"
   />
+  </div>
+  
 </template>
 
 <script>
@@ -30,6 +33,7 @@ export default {
       },
       chartOptions: {
         responsive: true,
+        maintainAspectRatio: false,
         scales: {
           y: {
             beginAtZero: true
@@ -38,12 +42,17 @@ export default {
       }
     }
   },
-  methods: {
+  mounted() {
+    
+  },methods: {
     getServices(){
       return ["Afeitado","Degradado","Corte","Masaje"]
     },
     randomValues(){
       return Array.from({ length: this.getServices().length }, () => Math.floor(Math.random() * 20));
+    },
+    getAppointments(){
+      
     }
   }
 }

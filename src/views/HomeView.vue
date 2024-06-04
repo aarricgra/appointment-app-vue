@@ -1,5 +1,5 @@
 <script setup>
-import ChartClientes from '@/components/ChartClientes.vue';
+import ChartClientes from '@/components/ChartReservas.vue';
 import ChartServicios from '@/components/ChartServicios.vue';
 import ChartHoras from '@/components/ChartHoras.vue';
 

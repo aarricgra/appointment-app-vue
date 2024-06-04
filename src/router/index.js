@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ChartClientes from '../components/ChartClientes.vue'
+import ChartClientes from '../components/ChartReservas.vue'
 import ChartServicios from '@/components/ChartServicios.vue'
 
 const router = createRouter({

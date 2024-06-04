@@ -3,6 +3,7 @@
     id="my-chart-id"
     :options="chartOptions"
     :data="chartData"
+    ref="clientChart"
   />
 </template>
 
@@ -27,7 +28,7 @@ export default {
       },
       chartOptions: {
         responsive: true,
-        aspectRatio:2
+        maintainAspectRatio: false,
       }
     }
   },

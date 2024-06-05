@@ -6,11 +6,11 @@
       :options="chartOptions"
       :data="chartData"
     />
-    <button v-on:click="addmonth-=1;this.getAppointments()">
-      {{margen}}
+    <button @click="changeMonth(-1)">
+      Previous Month
     </button>
-    <button v-on:click="addmonth+=1;this.getAppointments()">
-      {{margen}}
+    <button @click="changeMonth(1)">
+      Next Month
     </button>
   </div>
 </template>
@@ -41,16 +41,15 @@ export default {
   components: { Line },
   data() {
     return {
-      addmonth:0,
-      margen:"",
+      addmonth: 0,
       appointments: [],
       chartData: {
-        labels: this.getDaysInCurrentMonth(),
+        labels: [],
         datasets: [{
-          label: "Clientes",
-          data: this.appointments, // Example data, adjust as needed
-          backgroundColor: Array(this.getDaysInCurrentMonth().length).fill('rgba(75, 192, 192, 0.2)'),
-          borderColor: Array(this.getDaysInCurrentMonth().length).fill('rgba(75, 192, 192, 1)'),
+          label: "Reservas",
+          data: [],
+          backgroundColor: [],
+          borderColor: [],
           borderWidth: 1,
           tension: 0.3
         }],
@@ -67,42 +66,54 @@ export default {
     }
   },
   mounted() {
-   this.getAppointments()
+    this.getAppointments();
   },
   methods: {
-    getDaysInCurrentMonth() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth();
+    getDaysInMonth(year, month) {
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       return Array.from({ length: daysInMonth }, (_, i) => i + 1);
     },
-    randomValues(){
-      return Array.from({ length: this.getDaysInCurrentMonth().length }, () => Math.floor(Math.random() * 20));
+    changeMonth(value) {
+      this.addmonth += value;
+      this.getAppointments();
     },
-    async getAppointments(){
-      try{
-      var date = new Date();
-      var firstDay = moment(new Date(date.getFullYear(), date.getMonth()+this.addmonth, 1)).format("YYYY-MM-DD");
-      var lastDay = moment(new Date(date.getFullYear(), date.getMonth() + 1+this.addmonth, 0)).format("YYYY-MM-DD")
-      this.margen=(firstDay+"///"+lastDay)
-      const response = await axios.get('http://localhost:1337/api/reservas?populate=*&filters[Fecha][$gte]='+firstDay+'&filters[Fecha][$lte]='+lastDay)
-      this.appointments = response.data.data
-      this.updateChart(this.appointments)
-    }catch(e){
-      console.log(e);
+    async getAppointments() {
+      try {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth() + this.addmonth;
+        const firstDay = moment(new Date(year, month, 1)).format("YYYY-MM-DD");
+        const lastDay = moment(new Date(year, month + 1, 0)).format("YYYY-MM-DD");
+
+        const response = await axios.get(`http://localhost:1337/api/reservas?populate=*&filters[Fecha][$gte]=${firstDay}&filters[Fecha][$lte]=${lastDay}`);
+        const appointments = response.data.data;
+
+        this.updateChart(appointments, year, month);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    updateChart(appointments, year, month) {
+      const daysInMonth = this.getDaysInMonth(year, month);
+      const data = Array.from({ length: daysInMonth.length }, () => 0);
+
+      appointments.forEach(element => {
+        const day = moment(element.attributes.Fecha).date();
+        data[day - 1]++;
+      });
+
+      this.chartData = {
+        labels: daysInMonth,
+        datasets: [{
+          label: "Reservas",
+          data: data,
+          backgroundColor: Array(daysInMonth.length).fill('rgba(75, 192, 192, 0.2)'),
+          borderColor: Array(daysInMonth.length).fill('rgba(75, 192, 192, 1)'),
+          borderWidth: 1,
+          tension: 0.3
+        }],
+      };
     }
-    },updateChart(info){
-      var array = Array.from({length: this.getDaysInCurrentMonth().length},() => Math.floor(Math.random() * 0))
-      info.forEach(element => {
-        array[moment(element.attributes.Fecha).format("DD")-1]+=1;
-      })
-      this.appointments=array
-    }
-  },
+  }
 }
 </script>
-
-<style>
-
-</style>

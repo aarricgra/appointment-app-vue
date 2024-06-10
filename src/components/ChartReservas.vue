@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container">
+  <div class="chart-container" style="padding-bottom:70px;">
     <v-row>
       <v-col class="d-flex align-center justify-center">
         <v-btn @click="changeMonth(-1)"> Previous Month </v-btn>

@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ChartClientes from '../components/ChartReservas.vue'
 import ChartServicios from '@/components/ChartServicios.vue'
 import CalendarView from '../views/CalendarView.vue'
+import AppointmentView from '../views/AppointmentView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,12 @@ const router = createRouter({
       path: '/servicios',
       name: 'servicios',
       component: ChartServicios
+    },
+    {
+      path: '/appointmet/:id',
+      name: 'appointment',
+      component: AppointmentView,
+      props:true
     }
   ]
 })

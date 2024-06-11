@@ -15,6 +15,7 @@ moment.locale('es', {
   <div class="menu">
     <RouterLink to="/" class="menuElement">Home</RouterLink>
     <RouterLink to="/calendar" class="menuElement">Calendario</RouterLink>
+    <RouterLink to="/servicios" class="menuElement">Servicios</RouterLink>
   </div>
   <div class="main">
     <RouterView />

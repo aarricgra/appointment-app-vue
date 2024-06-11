@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ChartClientes from '../components/ChartReservas.vue'
-import ChartServicios from '@/components/ChartServicios.vue'
 import CalendarView from '../views/CalendarView.vue'
 import AppointmentView from '../views/AppointmentView.vue'
+import ServicesView from '../views/ServicesView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,7 +30,7 @@ const router = createRouter({
     {
       path: '/servicios',
       name: 'servicios',
-      component: ChartServicios
+      component: ServicesView
     },
     {
       path: '/appointmet/:id',

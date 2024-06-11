@@ -36,7 +36,7 @@
       >
         <div v-if="checkDateTime(day, time)">
           
-          <router-link :to="{name:'appointment',params:{id:checkDateTime(day, time).id}}" v-if="checkDateTime(day, time).attributes.idServicio.data.id != 4">
+          <router-link :to="{name:'appointment',params:{id:checkDateTime(day, time).id}}" v-if="checkDateTime(day, time).attributes.idServicio.data.id != 1">
             <div>
               {{ checkDateTime(day, time).attributes.idCliente.data.attributes.Nombre }}<br /><br />
             {{ checkDateTime(day, time).attributes.idServicio.data.attributes.Nombre }}
@@ -167,7 +167,7 @@ export default {
           data: {
             Fecha: day,
             Hora: time,
-            idServicio: 4
+            idServicio: 1
           }
         })
 

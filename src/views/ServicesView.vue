@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
   data() {
@@ -11,32 +11,67 @@ export default {
       saleToAdd: null,
       imageToAdd: null,
       imagePreview: null
-    }
+    };
   },
   methods: {
     async getServices() {
-      const resp = (await axios.get('http://localhost:1337/api/servicios/?populate=Imagen')).data
-        .data
-      this.servicesList = resp
+      try {
+        const resp = (await axios.get('http://localhost:1337/api/servicios/?populate=Imagen')).data.data;
+        this.servicesList = resp;
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
     },
     cancelAdd() {
-      this.isAdding = !this.isAdding
-      this.nameToAdd = ''
-      this.priceToAdd = null
-      this.saleToAdd = null
-      this.imageToAdd = null
-      this.imagePreview = null
+      this.isAdding = !this.isAdding;
+      this.nameToAdd = '';
+      this.priceToAdd = null;
+      this.saleToAdd = null;
+      this.imageToAdd = null;
+      this.imagePreview = null;
     },
     onFileChange(event) {
-      const file = event.target.files[0]
-      this.imageToAdd = file
-      this.imagePreview = URL.createObjectURL(file)
+      const file = event.target.files[0];
+      this.imageToAdd = file;
+      this.imagePreview = URL.createObjectURL(file);
+    },
+    async postNewService() {
+      if (!this.imageToAdd) {
+        alert('Please select an image');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('files', this.imageToAdd);
+      try {
+        const response = await fetch('http://localhost:1337/api/upload', {
+        method: 'post',
+        body: formData,
+        });
+        const data = await response.json();
+        const id=data[0].id
+
+        const serviceData = {
+          data: {
+            Nombre: this.nameToAdd,
+            Precio: this.priceToAdd,
+            Oferta: this.saleToAdd,
+            Imagen: [id]
+          }
+        };
+        console.log("aaaaa",JSON.stringify(serviceData));
+        await axios.post('http://localhost:1337/api/servicios', serviceData);
+        this.getServices();
+        this.cancelAdd(); 
+      } catch (error) {
+        console.error("Error uploading file or creating service:", error);
+      }
     }
   },
   mounted() {
-    this.getServices()
+    this.getServices();
   }
-}
+};
 </script>
 
 <template>
@@ -66,6 +101,12 @@ export default {
                 </v-col>
               </v-row>
             </v-col>
+            <router-link :to="{name:'service',params:{id:service.id}}" class="center-content">
+              <v-col cols="1" class="center-content">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </v-col>
+            </router-link>
+            
           </v-row>
         </v-col>
         <v-col />
@@ -80,7 +121,7 @@ export default {
             <v-col cols="2" class="center-content">
               <input type="file" id="file-input" style="display: none" @change="onFileChange" />
 
-              <label for="file-input" style="height: 90px;" class="center-content">
+              <label for="file-input" style="height: 90px" class="center-content">
                 <img
                   :src="imagePreview"
                   alt="Click to upload"
@@ -91,8 +132,20 @@ export default {
                 <i class="fa-solid fa-image" v-else></i>
               </label>
             </v-col>
-            <v-col>
+            <v-col class="center-content">
               <v-row>
+                <v-col class="center-content" cols="4">
+                  <v-text-field hide-details="auto" label="Nombre" v-model="nameToAdd" />
+                </v-col>
+                <v-col class="center-content" cols="3">
+                  <v-text-field hide-details="auto" label="Precio" v-model="priceToAdd" />€
+                </v-col>
+                <v-col class="center-content" cols="3">
+                  <v-text-field hide-details="auto" label="Oferta" v-model="saleToAdd" />%
+                </v-col>
+                <v-col cols="1" @click="postNewService()" class="center-content">
+                  <i class="fa-solid fa-floppy-disk"></i>
+                </v-col>
                 <v-col cols="1" @click="cancelAdd()" class="center-content">
                   <i class="fa-solid fa-ban"></i>
                 </v-col>

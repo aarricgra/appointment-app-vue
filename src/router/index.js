@@ -4,6 +4,8 @@ import ChartClientes from '../components/ChartReservas.vue'
 import CalendarView from '../views/CalendarView.vue'
 import AppointmentView from '../views/AppointmentView.vue'
 import ServicesView from '../views/ServicesView.vue'
+import ServiceView from '../views/ServiceView.vue'
+
 
 
 const router = createRouter({
@@ -36,6 +38,12 @@ const router = createRouter({
       path: '/appointmet/:id',
       name: 'appointment',
       component: AppointmentView,
+      props:true
+    },
+    {
+      path: '/service/:id',
+      name: 'service',
+      component: ServiceView,
       props:true
     }
   ]

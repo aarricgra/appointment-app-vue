@@ -5,6 +5,8 @@ import CalendarView from '../views/CalendarView.vue'
 import AppointmentView from '../views/AppointmentView.vue'
 import ServicesView from '../views/ServicesView.vue'
 import ServiceView from '../views/ServiceView.vue'
+import ProductsView from '../views/ProductsView.vue'
+import ProductView from '../views/ProductView.vue'
 
 
 
@@ -41,11 +43,22 @@ const router = createRouter({
       props:true
     },
     {
-      path: '/service/:id',
-      name: 'service',
+      path: '/servicio/:id',
+      name: 'servicio',
       component: ServiceView,
       props:true
-    }
+    },
+    {
+      path: '/productos',
+      name: 'productos',
+      component: ProductsView
+    },
+    {
+      path: '/producto/:id',
+      name: 'producto',
+      component: ProductView,
+      props:true
+    },
   ]
 })
 

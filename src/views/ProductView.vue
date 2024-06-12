@@ -23,7 +23,7 @@ export default {
     async updateInfo() {
       const response = (
         await axios.get(
-          'http://localhost:1337/api/servicios/' + this.$props.id + '/?populate=Imagen'
+          'http://localhost:1337/api/productos/' + this.$props.id + '/?populate=Imagen'
         )
       ).data.data.attributes
       this.serviceInfo = response
@@ -41,11 +41,11 @@ export default {
         }
     },
     async deleteService(){
-        if(confirm("¿Estás seguro de eliminar el servicio?")){
-            if(confirm("¿Estás completamente seguro de eliminar el servicio?")){
+        if(confirm("¿Estás seguro de eliminar el producto?")){
+            if(confirm("¿Estás completamente seguro de eliminar el producto?")){
                 await axios.delete('http://localhost:1337/api/upload/files/' + this.imgId)
-                await axios.delete('http://localhost:1337/api/servicios/' + this.$props.id)
-                router.push("/servicios")
+                await axios.delete('http://localhost:1337/api/productos/' + this.$props.id)
+                router.push("/productos")
             }
         }
     },
@@ -76,7 +76,7 @@ export default {
             Imagen: this.imgId
           }
       };
-      await axios.put('http://localhost:1337/api/servicios/'+this.$props.id, serviceData);
+      await axios.put('http://localhost:1337/api/productos/'+this.$props.id, serviceData);
       this.snackbar=!this.snackbar
     }
   }

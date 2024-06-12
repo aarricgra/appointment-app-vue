@@ -4,7 +4,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      servicesList: [],
+      productsList: [],
       isAdding: false,
       nameToAdd: '',
       priceToAdd: null,
@@ -14,12 +14,12 @@ export default {
     };
   },
   methods: {
-    async getServices() {
+    async getProducts() {
       try {
-        const resp = (await axios.get('http://localhost:1337/api/servicios/?populate=Imagen')).data.data;
-        this.servicesList = resp;
+        const resp = (await axios.get('http://localhost:1337/api/productos/?populate=Imagen')).data.data;
+        this.productsList = resp;
       } catch (error) {
-        console.error("Error fetching services:", error);
+        console.error("Error fetching products:", error);
       }
     },
     cancelAdd() {
@@ -35,7 +35,7 @@ export default {
       this.imageToAdd = file;
       this.imagePreview = URL.createObjectURL(file);
     },
-    async postNewService() {
+    async postNewproduct() {
       if (!this.imageToAdd) {
         alert('Please select an image');
         return;
@@ -51,7 +51,7 @@ export default {
         const data = await response.json();
         const id=data[0].id
 
-        const serviceData = {
+        const productData = {
           data: {
             Nombre: this.nameToAdd,
             Precio: this.priceToAdd,
@@ -59,30 +59,30 @@ export default {
             Imagen: [id]
           }
         };
-        await axios.post('http://localhost:1337/api/servicios', serviceData);
-        this.getServices();
+        await axios.post('http://localhost:1337/api/productos', productData);
+        this.getProducts();
         this.cancelAdd(); 
       } catch (error) {
-        console.error("Error uploading file or creating service:", error);
+        console.error("Error uploading file or creating product:", error);
       }
     }
   },
   mounted() {
-    this.getServices();
+    this.getProducts();
   }
 };
 </script>
 
 <template>
   <div style="color: white">
-    <div v-for="service in servicesList" :key="service.id" style="margin-bottom: 40px">
-      <v-row v-if="service.id != 1">
+    <div v-for="product in productsList" :key="product.id" style="margin-bottom: 40px">
+      <v-row v-if="product.id != 1">
         <v-col />
         <v-col cols="7" class="listElement">
           <v-row>
             <v-col cols="2" class="center-content">
               <img
-                :src="'http://localhost:1337' + service.attributes.Imagen.data[0].attributes.url"
+                :src="'http://localhost:1337' + product.attributes.Imagen.data[0].attributes.url"
                 alt="aa"
                 style="width: 90px; border-radius: 100%"
               />
@@ -90,17 +90,17 @@ export default {
             <v-col class="center-content">
               <v-row style="height: 100%">
                 <v-col class="center-content">
-                  <p>{{ service.attributes.Nombre }}</p>
+                  <p>{{ product.attributes.Nombre }}</p>
                 </v-col>
                 <v-col class="center-content">
-                  <p>{{ service.attributes.Precio + '€' }}</p>
+                  <p>{{ product.attributes.Precio + '€' }}</p>
                 </v-col>
                 <v-col class="center-content">
-                  <p>{{ service.attributes.Oferta + '%' }}</p>
+                  <p>{{ product.attributes.Oferta + '%' }}</p>
                 </v-col>
               </v-row>
             </v-col>
-            <router-link :to="{name:'servicio',params:{id:service.id}}" class="center-content">
+            <router-link :to="{name:'producto',params:{id:product.id}}" class="center-content">
               <v-col cols="1" class="center-content">
               <i class="fa-solid fa-pen-to-square"></i>
             </v-col>
@@ -142,7 +142,7 @@ export default {
                 <v-col class="center-content" cols="3">
                   <v-text-field hide-details="auto" label="Oferta" v-model="saleToAdd" />%
                 </v-col>
-                <v-col cols="1" @click="postNewService()" class="center-content">
+                <v-col cols="1" @click="postNewproduct()" class="center-content">
                   <i class="fa-solid fa-floppy-disk"></i>
                 </v-col>
                 <v-col cols="1" @click="cancelAdd()" class="center-content">

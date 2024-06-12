@@ -41,7 +41,7 @@ export default {
             <v-col cols="8">
                 <v-row>
                     <v-col style="text-align: center;">
-                        <img :src="'http://localhost:1337'+serviceInfo.Imagen.data[0].attributes.url" alt="alternatetext" style="width: 50%; border-radius: 20px;">
+                        <img :src="'http://localhost:1337'+serviceInfo.Imagen.data[0].attributes.url" alt="alternatetext" style="width: 250px; border-radius: 20px;">
                     </v-col>
                 </v-row>
                 <v-row>

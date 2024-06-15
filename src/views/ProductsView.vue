@@ -76,7 +76,7 @@ export default {
 <template>
   <div style="color: white">
     <div v-for="product in productsList" :key="product.id" style="margin-bottom: 40px">
-      <v-row v-if="product.id != 1">
+      <v-row>
         <v-col />
         <v-col cols="7" class="listElement">
           <v-row>

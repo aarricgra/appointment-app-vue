@@ -7,6 +7,8 @@ import ServicesView from '../views/ServicesView.vue'
 import ServiceView from '../views/ServiceView.vue'
 import ProductsView from '../views/ProductsView.vue'
 import ProductView from '../views/ProductView.vue'
+import ClientsView from '../views/ClientsView.vue'
+import ClientView from '../views/ClientView.vue'
 
 
 
@@ -57,6 +59,17 @@ const router = createRouter({
       path: '/producto/:id',
       name: 'producto',
       component: ProductView,
+      props:true
+    },
+    {
+      path: '/clientes',
+      name: 'clientes',
+      component: ClientsView
+    },
+    {
+      path: '/cliente/:id',
+      name: 'cliente',
+      component: ClientView,
       props:true
     },
   ]

@@ -1,0 +1,83 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "servicios": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Nombre": { "type": "string" },
+            "Precio": { "type": "number" },
+            "Oferta": { "type": "number" }
+          },
+          "required": ["Nombre", "Precio", "Oferta"]
+        }
+      },
+      "productos": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Nombre": { "type": "string" },
+            "Precio": { "type": "number" },
+            "Oferta": { "type": "number" }
+          },
+          "required": ["Nombre", "Precio", "Oferta"]
+        }
+      },
+      "rangos": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Nombre": { "type": "string" }
+          },
+          "required": ["Nombre"]
+        }
+      },
+      "clientes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Nombre": { "type": "string" },
+            "Telefono": { "type": "string" },
+            "Correo": { "type": "string" },
+            "Password": { "type": "string" },
+            "Cartera": { "type": "number" },
+            "Tickets": { "type": "number" },
+            "idRango": { "type": "string" }
+          },
+          "required": ["Nombre", "Telefono", "Correo", "Password", "Cartera", "Tickets", "idRango"]
+        }
+      },
+      "reservas": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Fecha": { "type": "string" },
+            "Hora": { "type": "string" },
+            "idCliente": { "type": "string" },
+            "idServicio": { "type": "string" },
+            "Coste": { "type": "number" }
+          },
+          "required": ["Fecha", "Hora", "idCliente", "idServicio", "Coste"]
+        }
+      },
+      "superusers": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Usuario": { "type": "string" },
+            "Password": { "type": "string" }
+          },
+          "required": ["Usuario", "Password"]
+        }
+      }
+    },
+    "required": ["servicios", "productos", "rangos", "clientes", "reservas", "superusers"]
+  }
+  

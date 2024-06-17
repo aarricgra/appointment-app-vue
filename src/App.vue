@@ -47,6 +47,8 @@ moment.locale('es', {
       <RouterLink to="/servicios" class="menuElement">Servicios</RouterLink>
       <RouterLink to="/productos" class="menuElement">Productos</RouterLink>
       <RouterLink to="/clientes" class="menuElement">Clientes</RouterLink>
+      <RouterLink to="/import" class="menuElement">Importar</RouterLink>
+      <RouterLink to="/export" class="menuElement">Exportar</RouterLink>
     </div>
     <div class="main">
       <RouterView />

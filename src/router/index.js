@@ -9,6 +9,8 @@ import ProductsView from '../views/ProductsView.vue'
 import ProductView from '../views/ProductView.vue'
 import ClientsView from '../views/ClientsView.vue'
 import ClientView from '../views/ClientView.vue'
+import ImportView from '../views/ImportView.vue'
+import ExportView from '../views/ExportView.vue'
 
 
 
@@ -71,6 +73,16 @@ const router = createRouter({
       name: 'cliente',
       component: ClientView,
       props:true
+    },
+    {
+      path: '/import',
+      name: 'importar',
+      component: ImportView,
+    },
+    {
+      path: '/export',
+      name: 'exportar',
+      component: ExportView,
     },
   ]
 })

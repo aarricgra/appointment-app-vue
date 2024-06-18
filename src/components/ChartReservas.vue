@@ -2,9 +2,9 @@
   <div class="chart-container" style="padding-bottom:70px;">
     <v-row>
       <v-col class="d-flex align-center justify-center">
-        <v-btn @click="changeMonth(-1)"> Previous Month </v-btn>
+        <v-btn @click="changeMonth(-1)"> Anterior </v-btn>
         <h1 style="color: white; padding:0 10px 0 10px">{{ getMonth(this.selectedMonth) }}</h1>
-        <v-btn @click="changeMonth(1)"> Next Month </v-btn>
+        <v-btn @click="changeMonth(1)"> Siguiente </v-btn>
       </v-col>
     </v-row>
 
@@ -73,7 +73,9 @@ export default {
       return moment(date).format("MMMM")
     },
     getDaysInMonth(year, month) {
+      //Coger ultimo dia del mes
       const daysInMonth = new Date(year, month + 1, 0).getDate()
+      //hacer una array con esa cantidad de dias
       return Array.from({ length: daysInMonth }, (_, i) => i + 1)
     },
     changeMonth(value) {

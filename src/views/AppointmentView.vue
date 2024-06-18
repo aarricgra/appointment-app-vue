@@ -16,11 +16,10 @@ export default {
   },
   methods:{
     async updateInfo(){
-        const response = (await axios.get("http://localhost:1337/api/reservas/"+this.$props.id+"/?populate[idServicio][populate]=Imagen&populate=idCliente")).data.data.attributes
-        console.log(response);
-        this.appointmentInfo=response
-        this.clientInfo=response.idCliente.data.attributes
-        this.serviceInfo=response.idServicio.data.attributes
+        const response = await axios.get("http://localhost:1337/api/reservas/"+this.$props.id+"/?populate[idServicio][populate]=Imagen&populate=idCliente")
+        this.appointmentInfo=response.data.data.attributes
+        this.clientInfo=response.data.data.attributes.idCliente.data.attributes
+        this.serviceInfo=response.data.data.attributes.idServicio.data.attributes
     },
     formatTime(time){
         let newTime = moment(time,"HH:mm:ssss").format("HH:mm")
@@ -41,7 +40,7 @@ export default {
             <v-col cols="8">
                 <v-row>
                     <v-col style="text-align: center;">
-                        <img :src="'http://localhost:1337'+serviceInfo.Imagen.data[0].attributes.url" alt="alternatetext" style="width: 250px; border-radius: 20px;">
+                        <img :src="'http://localhost:1337'+serviceInfo.Imagen.data[0].attributes.url" alt="alternatetext" style="width: 250px; border-radius: 20px;" v-if="serviceInfo.Imagen.data">
                     </v-col>
                 </v-row>
                 <v-row>

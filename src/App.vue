@@ -13,13 +13,19 @@ export default {
   },
   methods: {
     async handleLogin(){
-      const resp =await axios.get('http://localhost:1337/api/superusers/?filters[Usuario][$eq]='+this.user+"&filters[Password][$eq]="+this.password)
+      const resp =await axios.get(
+        'http://localhost:1337/api/superusers/?filters[Usuario][$eq]='+
+        this.user+
+        "&filters[Password][$eq]="+
+        this.password
+      )
       if((resp.data.data).length){
         localStorage.setItem('user',resp.data.data)
         this.isLoged=true
       }
     }
   },
+  //Mounted ejecuta al cargar la vista
   mounted() {
     if (localStorage.getItem('user')) {
       this.isLoged = true
@@ -35,13 +41,14 @@ moment.locale('es', {
   monthsShort: 'ene._feb._mar._abr._may._jun._jul._ago._sep._oct._nov._dic.'.split('_'),
   weekdays: 'domingo_lunes_martes_miércoles_jueves_viernes_sábado'.split('_'),
   weekdaysShort: 'dom._lun._mar._mié._jue._vie._sáb.'.split('_'),
-  weekdaysMin: 'Lun_Mar_Mie_Jue_Vie_Sáb_Dom'.split('_')
+  weekdaysMin: 'Dom_Lun_Mar_Mie_Jue_Vie_Sáb'.split('_')
 })
 </script>
 
 <template>
   <div v-if="isLoged">
     <div class="menu">
+      <!--menu de enlaces-->
       <RouterLink to="/" class="menuElement">Gráficos</RouterLink>
       <RouterLink to="/calendar" class="menuElement">Calendario</RouterLink>
       <RouterLink to="/servicios" class="menuElement">Servicios</RouterLink>
@@ -51,6 +58,7 @@ moment.locale('es', {
       <RouterLink to="/export" class="menuElement">Exportar</RouterLink>
     </div>
     <div class="main">
+      <!--Vista del componente -->
       <RouterView />
     </div>
   </div>

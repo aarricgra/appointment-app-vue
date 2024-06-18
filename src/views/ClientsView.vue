@@ -35,7 +35,10 @@ export default {
                 :src="'http://localhost:1337' + client.attributes.Imagen.data.attributes.url"
                 alt="aa"
                 style="width: 90px; border-radius: 100%"
+                v-if="client.attributes.Imagen.data"
               />
+              <i class="fa-solid fa-image" v-else></i>
+
             </v-col>
             <v-col class="center-content">
               <v-row style="height: 100%">

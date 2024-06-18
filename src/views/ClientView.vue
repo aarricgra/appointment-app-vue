@@ -17,7 +17,8 @@ export default {
       imgUrl: null,
       imageToAdd: null,
       snackbar: false,
-      ranks:[]
+      ranks:[],
+      hasImage:false
     }
   },
   mounted() {
@@ -37,8 +38,11 @@ export default {
       this.telf = response.Telefono
       this.tickets = response.Tickets
       this.cartera = response.Cartera
-      this.imgUrl = response.Imagen.data.attributes.url
-      this.imgId = response.Imagen.data.id
+      if(response.Imagen.data){
+        this.imgUrl = response.Imagen.data.attributes.url
+        this.imgId = response.Imagen.data.id
+        this.hasImage = true
+      }
       this.rank=response.idRango.data.id
     },
     onFileChange(){
@@ -46,6 +50,7 @@ export default {
             const file = event.target.files[0];
             this.imageToAdd = file;
             this.imgUrl = URL.createObjectURL(file);
+            this.hasImage=true
         }
     },
     async deleteService(){
@@ -69,7 +74,10 @@ export default {
     },
     async updateService(){
       if(this.imageToAdd){
-        await axios.delete('http://localhost:1337/api/upload/files/' + this.imgId)
+        if( this.imgId){
+          await axios.delete('http://localhost:1337/api/upload/files/' + this.imgId)
+        }
+       
 
         const formData = new FormData();
         formData.append('files', this.imageToAdd);
@@ -117,13 +125,13 @@ export default {
         <v-row>
           <v-col style="text-align: center">
             <input type="file" id="file-input" style="display: none" @change="onFileChange" />
-
               <label for="file-input" class="center-content">
+                <i class="fa-solid fa-image" v-if="!hasImage" style="font-size: 5em;color: white;"></i>
                 <img
                   :src="'http://localhost:1337'+imgUrl"
                   alt="Click to upload"
                   id="upload-image"
-                  v-if="!imageToAdd"
+                  v-else-if="!imageToAdd"
                   style="width: 250px; border-radius: 10%"
                 />
                 <img

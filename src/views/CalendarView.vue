@@ -35,9 +35,9 @@
         class="calHeader d-flex align-center justify-center"
       >
         <div v-if="checkDateTime(day, time)">
-          
           <router-link :to="{name:'appointment',params:{id:checkDateTime(day, time).id}}" v-if="checkDateTime(day, time).attributes.idServicio.data.attributes.Nombre != 'Cerrado'">
             <div>
+            
               {{ checkDateTime(day, time).attributes.idCliente.data.attributes.Nombre }}<br /><br />
             {{ checkDateTime(day, time).attributes.idServicio.data.attributes.Nombre }}
             </div>
@@ -79,6 +79,12 @@
 import axios from 'axios'
 import moment from 'moment'
 import 'moment/locale/es'
+moment.updateLocale('es', {
+  week: {
+    dow: 1 
+  }
+})
+
 
 export default {
   data() {
@@ -111,10 +117,13 @@ export default {
       await this.updateAppointments()
     },
     updateArray() {
+      //Coge los dias del la semanad el dia seleccionado
+      //Por defecto el dia actual
       this.weekArray = Array.from({ length: 7 }, (_, i) =>
         moment(this.selectedDay).startOf('week').add(i, 'days').format('YYYY-MM-DD')
       )
     },
+    //Genera la array con las horas
     genTimeArray() {
       const start = moment('08:00', 'HH:mm')
       const end = moment('23:00', 'HH:mm')
@@ -138,6 +147,7 @@ export default {
       return moment(day).format('dd')
     },
     checkDateTime(date, time) {
+      //Si un dia en una hora hay una reserva devuelve esa reserva
       return this.weekAppointments.find((app) => {
         const [hour, minute] = app.attributes.Hora.split(':')
         const parsedTime = `${hour}:${minute}`
@@ -159,7 +169,7 @@ export default {
       }
     },
     async blockAppointments() {
-      let idBlock= await (await axios.get("http://localhost:1337/api/servicios/?filters[Nombre][$eq]=Cerrado")).data.data.id
+      let idBlock=  await axios.get("http://localhost:1337/api/servicios/?filters[Nombre][$eq]=Cerrado")
       //Bloquear dias
       for (const dateTime of this.appointsToBlock) {
         let day = dateTime.split(' ')[0]
@@ -168,7 +178,7 @@ export default {
           data: {
             Fecha: day,
             Hora: time,
-            idServicio: idBlock
+            idServicio: idBlock.data.data[0].id
           }
         })
 

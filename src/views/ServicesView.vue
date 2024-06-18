@@ -16,7 +16,7 @@ export default {
   methods: {
     async getServices() {
       try {
-        const resp = (await axios.get('http://localhost:1337/api/servicios/?populate=Imagen')).data.data;
+        const resp = (await axios.get('http://localhost:1337/api/servicios/?populate=Imagen&filters[Nombre][$ne]=Cerrado')).data.data;
         this.servicesList = resp;
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -85,7 +85,9 @@ export default {
                 :src="'http://localhost:1337' + service.attributes.Imagen.data[0].attributes.url"
                 alt="aa"
                 style="width: 90px; border-radius: 100%"
+                v-if="service.attributes.Imagen.data"
               />
+              <i class="fa-solid fa-image" v-else></i>
             </v-col>
             <v-col class="center-content">
               <v-row style="height: 100%">

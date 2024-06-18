@@ -47,6 +47,7 @@ export default {
     }
   },
   async created() {
+    //Importo el Schema
     this.jsonSchema = await fetch('/src/schemas/schema.json').then((res) => res.json())
   },
   methods: {
@@ -61,6 +62,7 @@ export default {
 
       this.fileContent = await this.readFile(this.file)
 
+      //Si es un json intento validarlo
       if (this.file.type === 'application/json') {
         this.validateJson()
       } else {

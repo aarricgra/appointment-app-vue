@@ -87,11 +87,11 @@ export default {
                 style="width: 90px; border-radius: 100%"
                 v-if="service.attributes.Imagen.data"
               />
-              <i class="fa-solid fa-image" v-else></i>
+              <i class="fa-solid fa-image center-content" style="height: 90px;" v-else></i>
             </v-col>
-            <v-col class="center-content">
+            <v-col class="center-content" >
               <v-row style="height: 100%">
-                <v-col class="center-content">
+                <v-col class="center-content" style="padding: 0;">
                   <p>{{ service.attributes.Nombre }}</p>
                 </v-col>
                 <v-col class="center-content">

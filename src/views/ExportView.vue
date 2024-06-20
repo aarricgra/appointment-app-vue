@@ -4,6 +4,7 @@
       <v-col />
       <v-col cols="7" class="center-content">
         <v-btn @click="exportJson" style="margin-left: 10px"> Exportar </v-btn>
+        <v-btn @click="getServices" style="margin-left: 10px"> test </v-btn>
       </v-col>
       <v-col />
     </v-row>
@@ -35,34 +36,57 @@ export default {
       await this.getReservas()
       await this.getSuperUsers()
 
-      const jsonData = JSON.stringify(this.data);
-      const file = new Blob([jsonData], {type: 'application/json'});
-      const a = document.createElement('a');
-            a.href = URL.createObjectURL(file);
-            a.download = "BackUp.json";
-            a.click();
+      const jsonData = JSON.stringify(this.data)
+      const file = new Blob([jsonData], { type: 'application/json' })
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(file)
+      a.download = 'BackUp.json'
+      a.click()
     },
     async getServices() {
-      const resp = await axios.get('http://localhost:1337/api/servicios')
+      const resp = await axios.get('http://localhost:1337/api/servicios/?populate=Imagen')
       let tempArray = []
+    
       resp.data.data.forEach((element) => {
-        let tempData = {
+        let tempData={}
+        if (element.attributes.Imagen.data) {
+          tempData = {
+          Nombre: element.attributes.Nombre,
+          Precio: element.attributes.Precio,
+          Oferta: element.attributes.Oferta,
+          Imagen: element.attributes.Imagen.data[0].id 
+        }
+        }else{
+          tempData = {
           Nombre: element.attributes.Nombre,
           Precio: element.attributes.Precio,
           Oferta: element.attributes.Oferta
         }
+        }
+        
         tempArray.push(tempData)
       })
       this.data.servicios = tempArray
     },
     async getProducts() {
-      const resp = await axios.get('http://localhost:1337/api/productos')
+      const resp = await axios.get('http://localhost:1337/api/productos/?populate=Imagen')
       let tempArray = []
       resp.data.data.forEach((element) => {
-        let tempData = {
+        console.log("product",element);
+        let tempData={}
+        if (element.attributes.Imagen.data) {
+          tempData = {
+          Nombre: element.attributes.Nombre,
+          Precio: element.attributes.Precio,
+          Oferta: element.attributes.Oferta,
+          Imagen: element.attributes.Imagen.data[0].id 
+        }
+        }else{
+          tempData = {
           Nombre: element.attributes.Nombre,
           Precio: element.attributes.Precio,
           Oferta: element.attributes.Oferta
+        }
         }
         tempArray.push(tempData)
       })
@@ -97,15 +121,27 @@ export default {
       this.data.clientes = tempArray
     },
     async getReservas() {
-      const resp = await axios.get('http://localhost:1337/api/reservas/?populate=idCliente&populate=idServicio')
+      const resp = await axios.get(
+        'http://localhost:1337/api/reservas/?populate=idCliente&populate=idServicio'
+      )
       let tempArray = []
       resp.data.data.forEach((element) => {
-        let tempData = {
-          Fecha: element.attributes.Fecha,
-          Hora: element.attributes.Hora,
-          idCliente: element.attributes.idCliente.data.attributes.Correo,
-          idServicio: element.attributes.idServicio.data.attributes.Nombre,
-          Coste: element.attributes.Coste,
+        let tempData = {}
+        if (element.attributes.idCliente.data) {
+          tempData = {
+            Fecha: element.attributes.Fecha,
+            Hora: element.attributes.Hora,
+            idCliente: element.attributes.idCliente.data.attributes.Correo,
+            idServicio: element.attributes.idServicio.data.attributes.Nombre,
+            Coste: element.attributes.Coste
+          }
+        } else {
+          tempData = {
+            Fecha: element.attributes.Fecha,
+            Hora: element.attributes.Hora,
+            idServicio: element.attributes.idServicio.data.attributes.Nombre,
+            Coste: element.attributes.Coste
+          }
         }
         tempArray.push(tempData)
       })

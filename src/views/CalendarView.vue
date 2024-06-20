@@ -178,7 +178,8 @@ export default {
           data: {
             Fecha: day,
             Hora: time,
-            idServicio: idBlock.data.data[0].id
+            idServicio: idBlock.data.data[0].id,
+            coste:0
           }
         })
 

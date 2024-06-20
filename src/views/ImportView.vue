@@ -137,13 +137,27 @@ export default {
     async postNoChilds() {
       const postRequests = []
 
-      JSON.parse(this.fileContent).servicios.forEach((element) => {
+      JSON.parse(this.fileContent).servicios.forEach(async (element) => {
         let tempData = { data: element }
+        if(tempData.data.Imagen){
+          try{
+            await axios.get('http://localhost:1337/api/upload/files/'+tempData.data.Imagen)
+          }catch (error){
+            delete tempData.data.Imagen
+          }
+        }
         postRequests.push(axios.post('http://localhost:1337/api/servicios', tempData))
       })
 
-      JSON.parse(this.fileContent).productos.forEach((element) => {
+      JSON.parse(this.fileContent).productos.forEach(async (element) => {
         let tempData = { data: element }
+        if(tempData.data.Imagen){
+          try{
+            await axios.get('http://localhost:1337/api/upload/files/'+tempData.data.Imagen)
+          }catch (error){
+            delete tempData.data.Imagen
+          }
+        }
         postRequests.push(axios.post('http://localhost:1337/api/productos', tempData))
       })
 
@@ -182,10 +196,13 @@ export default {
         JSON.parse(this.fileContent).reservas.map(async (element) => {
           let tempData = { data: element }
           // Assuming you need to fetch additional data from the server first
-          const idCliente = await axios.get(
+          
+          if(tempData.data.idCliente){
+            const idCliente = await axios.get(
             'http://localhost:1337/api/clientes/?filters[Correo][$eq]=' + tempData.data.idCliente
           )
-          tempData.data.idCliente = idCliente.data.data[0].id
+            tempData.data.idCliente = idCliente.data.data[0].id
+          }
 
           const idServicio = await axios.get(
             'http://localhost:1337/api/servicios/?filters[Nombre][$eq]=' + tempData.data.idServicio

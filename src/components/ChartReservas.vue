@@ -92,7 +92,7 @@ export default {
         const lastDay = moment(this.selectedMonth).endOf("month").format('YYYY-MM-DD')
 
         const response = await axios.get(
-          `http://localhost:1337/api/reservas?populate=*&filters[Fecha][$gte]=${firstDay}&filters[Fecha][$lte]=${lastDay}`
+          `http://localhost:1337/api/reservas?populate=*&filters[Fecha][$gte]=${firstDay}&filters[Fecha][$lte]=${lastDay}&filters[idServicio][Nombre][$ne]=Cerrado`
         )
         const appointments = response.data.data
 

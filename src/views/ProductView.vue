@@ -50,7 +50,7 @@ export default {
         if(confirm("¿Estás seguro de eliminar el producto?")){
             if(confirm("¿Estás completamente seguro de eliminar el producto?")){
               if(this.imgId){
-                await axios.delete(src/views/ProductView.vue' + this.imgId)
+                await axios.delete('src/views/ProductView.vue' + this.imgId)
               }
                 
                 await axios.delete('http://localhost:1337/api/productos/' + this.$props.id)

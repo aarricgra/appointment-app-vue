@@ -82,12 +82,12 @@ export default {
           <v-row>
             <v-col cols="2" class="center-content">
               <img
+                v-if="service.attributes.Imagen.data"
                 :src="'http://localhost:1337' + service.attributes.Imagen.data[0].attributes.url"
                 alt="aa"
                 style="width: 90px; border-radius: 100%"
-                v-if="service.attributes.Imagen.data"
               />
-              <i class="fa-solid fa-image center-content" style="height: 90px;" v-else></i>
+              <i v-else class="fa-solid fa-image center-content" style="height: 90px;"></i>
             </v-col>
             <v-col class="center-content" >
               <v-row style="height: 100%">

@@ -179,7 +179,7 @@ export default {
             Fecha: day,
             Hora: time,
             idServicio: idBlock.data.data[0].id,
-            coste:0
+            Coste:0
           }
         })
 

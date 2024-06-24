@@ -141,6 +141,7 @@ export default {
         let tempData = { data: element }
         if(tempData.data.Imagen){
           try{
+            console.log("img?",'http://localhost:1337/api/upload/files/'+tempData.data.Imagen);
             await axios.get('http://localhost:1337/api/upload/files/'+tempData.data.Imagen)
           }catch (error){
             delete tempData.data.Imagen
@@ -195,19 +196,27 @@ export default {
       await Promise.all(
         JSON.parse(this.fileContent).reservas.map(async (element) => {
           let tempData = { data: element }
-          // Assuming you need to fetch additional data from the server first
           
           if(tempData.data.idCliente){
             const idCliente = await axios.get(
             'http://localhost:1337/api/clientes/?filters[Correo][$eq]=' + tempData.data.idCliente
           )
-            tempData.data.idCliente = idCliente.data.data[0].id
+            if(idCliente.data.data[0]){
+              tempData.data.idCliente = idCliente.data.data[0].id
+            }else{
+              tempData.data.idCliente = null
+            }
+            
           }
 
           const idServicio = await axios.get(
             'http://localhost:1337/api/servicios/?filters[Nombre][$eq]=' + tempData.data.idServicio
           )
-          tempData.data.idServicio = idServicio.data.data[0].id
+          if(idServicio.data.data[0]){
+            tempData.data.idServicio = idServicio.data.data[0].id
+          }else{
+            tempData.data.idServicio = null
+          }
 
           postRequests.push(axios.post('http://localhost:1337/api/reservas', tempData))
         })

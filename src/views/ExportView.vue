@@ -4,7 +4,6 @@
       <v-col />
       <v-col cols="7" class="center-content">
         <v-btn @click="exportJson" style="margin-left: 10px"> Exportar </v-btn>
-        <v-btn @click="getServices" style="margin-left: 10px"> test </v-btn>
       </v-col>
       <v-col />
     </v-row>

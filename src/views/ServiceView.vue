@@ -59,7 +59,8 @@ export default {
     },
     async updateService(){
       if(this.imageToAdd){
-        if(this.imgId){await axios.delete('http://localhost:1337/api/upload/files/' + this.imgId)}
+        if(this.imgId){
+          await axios.delete('http://localhost:1337/api/upload/files/' + this.imgId)}
         
 
         const formData = new FormData();

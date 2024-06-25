@@ -14,7 +14,7 @@ export default {
       imgUrl: null,
       imageToAdd: null,
       snackbar: false,
-      hasIamge: false
+      hasImage: false
     }
   },
   mounted() {
@@ -34,7 +34,7 @@ export default {
       if(response.Imagen.data){
         this.imgUrl = response.Imagen.data[0].attributes.url
         this.imgId = response.Imagen.data[0].id
-        this.hasIamge=true
+        this.hasImage=true
       }
       
     },
@@ -43,7 +43,7 @@ export default {
             const file = event.target.files[0];
             this.imageToAdd = file;
             this.imgUrl = URL.createObjectURL(file);
-            this.hasIamge=true
+            this.hasImage=true
         }
     },
     async deleteService(){
@@ -106,8 +106,9 @@ export default {
         <v-row>
           <v-col style="text-align: center">
             <input type="file" id="file-input" style="display: none" @change="onFileChange" />
-
               <label for="file-input" class="center-content">
+              {{ console.log(hasImage)
+               }}
                 <i class="fa-solid fa-image" v-if="!hasImage" style="font-size: 5em;color: white;"></i>
                 <img
                   :src="'http://localhost:1337'+imgUrl"
